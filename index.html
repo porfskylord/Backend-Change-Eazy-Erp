@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form with Dropdown</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="card">
+        <h1>BACKEND CHANGE QUERY GENERATED</h1>
+        <!-- Main form with dropdown to choose an option -->
+        <form id="mainForm" action="#" method="post">
+            <label for="options">Choose an option:</label>
+            <select id="options" name="options">
+                <option value="none">Please select</option>
+                <option value="cancel_stock_transfer">1 Cancel production and stock transfer</option>
+                <option value="tallysync">2 Tallysync</option>
+                <option value="authorization_query">3 Authorization Query</option>
+            </select>
+            <button type="submit">Submit</button>
+        </form>
+
+        <!-- Form for Cancel Production and Stock Transfer -->
+        <form id="cancelForm" action="#" method="post" style="display: none;">
+            <h1>Cancel Production and Stock Transfer</h1>
+            <label for="transactionType">Transaction Type:</label>
+            <select id="transactionType" name="transactionType">
+                <option value="production">1 Production</option>
+                <option value="stock">2 Stock</option>
+            </select>
+
+            <label for="transactionNo">Transaction No:</label>
+            <input type="text" id="transactionNo" name="transactionNo" required>
+
+            <label for="transactionDate">Transaction Date:</label>
+            <input type="text" id="transactionDate" name="transactionDate" required>
+
+            <button type="button" id="generateCancelQueryButton">Generate Query</button>
+        </form>
+
+        <!-- Form for Tallysync with options for Single or Multiple Transactions -->
+        <form id="tallysyncForm" action="#" method="post" style="display: none;">
+            <h1>Tallysync</h1>
+            <button type="button" id="singleTransactionButton">Single Transaction</button>
+            <button type="button" id="multipleTransactionButton">Multiple Transactions</button>
+            
+            <!-- Single Transaction Form -->
+            <div id="singleTransactionForm" style="display: none;">
+                <label for="tableName">Table Name:</label>
+                <select id="tableName" name="tableName">
+                    <option value="sale_salesinvoice">Sales Invoice</option>
+                    <option value="pur_purchaseinvoice">Purchase Invoice</option>
+                    <option value="pur_purchaseorder">Purchase Order</option>
+                    <option value="sale_salesorder">Sales Order</option>
+                </select>
+
+                <label for="transactionNoTally">Transaction No:</label>
+                <input type="text" id="transactionNoTally" name="transactionNoTally" required>
+
+                <label for="transactionDateTally">Transaction Date:</label>
+                <input type="text" id="transactionDateTally" name="transactionDateTally" required>
+
+                <button type="button" id="generateTallyQueryButton">Generate Query</button>
+            </div>
+
+            <!-- Multiple Transactions Form -->
+            <div id="multipleTransactionForm" style="display: none;">
+                <label for="tableNameMultiple">Table Name:</label>
+                <select id="tableNameMultiple" name="tableNameMultiple">
+                    <option value="sale_salesinvoice">Sales Invoice</option>
+                    <option value="pur_purchaseinvoice">Purchase Invoice</option>
+                    <option value="pur_purchaseorder">Purchase Order</option>
+                    <option value="sale_salesorder">Sales Order</option>
+                </select>
+
+                <label for="transactionNos">Transaction Nos (comma-separated):</label>
+                <input type="text" id="transactionNos" name="transactionNos" required>
+
+                <button type="button" id="generateMultipleTallyQueryButton">Generate Query</button>
+            </div>
+        </form>
+
+        <!-- Form for Authorization Query -->
+        <form id="authorizationQueryForm" action="#" method="post" style="display: none;">
+            <h1>Authorization Query</h1>
+            <label for="authQueryTable">Table Name:</label>
+            <select id="authQueryTable" name="authQueryTable">
+                <option value="sale_salesinvoice">Sales Invoice</option>
+                <option value="pur_purchaseinvoice">Purchase Invoice</option>
+                <option value="pur_purchaseorder">Purchase Order</option>
+                <option value="sale_salesorder">Sales Order</option>
+                <option value="pur_inwardchallan">Inward Challan</option>
+                <option value="sale_deliverynote">Delivery Note</option>
+            </select>
+
+            <label for="authQueryNo">Transaction No:</label>
+            <input type="text" id="authQueryNo" name="authQueryNo" required>
+
+            <label for="authQueryDate">Transaction Date:</label>
+            <input type="text" id="authQueryDate" name="authQueryDate" required>
+
+            <button type="button" id="generateAuthQueryButton">Generate Query</button>
+        </form>
+
+        <!-- Section to display generated SQL query -->
+        <div id="queryOutput" class="card" style="display: none; margin-top: 20px;">
+            <h1>Generated SQL Query</h1>
+            <pre id="queryText"></pre>
+        </div>
+        
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
