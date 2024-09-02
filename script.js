@@ -39,7 +39,7 @@ document.getElementById('generateCancelQueryButton').addEventListener('click', f
     
     // Generate SQL query based on transaction type
     if (transactionType === 'production') {
-        queryText.textContent = `SELECT * FROM fun_cancellproduction((SELECT productionid from prod_productionmaster where productionno='${transactionNo}' and productiondate='${transactionDate}' AND branchid=7),'erpadmin');`;
+        queryText.textContent = `SELECT * FROM fun_cancellproduction((SELECT productionid from prod_productionmaster where productionno='${transactionNo}' and productiondate='${transactionDate}'),'erpadmin');`;
     } else if (transactionType === 'stock') {
         queryText.textContent = `SELECT * FROM fun_cancelstockjournal_2((select adjustmentid from stor_stockadjustmentortransfer where adjustmentno = '${transactionNo}' and adjustmentdate = '${transactionDate}'),'erpadmin');`;
     }
