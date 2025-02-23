@@ -5,559 +5,298 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Save SQL Queries</title>
     <style>
+     /* General Styles */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1e1e1e, #121212);
+            color: #e0e0e0;
             margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Main Content Container */
+        .content {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(30, 30, 30, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .content:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Headings */
+        h1 {
+            color: #ffffff;
+            text-align: center;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(44, 44, 44, 0.9);
             padding: 20px;
-            background-image: url('grad.png');
-            background-size: cover;
-	    min-height: 1200px;
-            background-position: center;
-            background-repeat: no-repeat;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+        }
+
+        /* Form Styles */
+        form {
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Vertically centers the content */
-            align-items: center;
-        }
-
-        #buttonContainer {
-            display: flex;
-            flex-direction: row;
-            gap: 10px;
-            padding: 15px;
-            width: 97%;
-            background: #8052eb;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        #buttonContainer button {
-            padding: 8px 16px;
-            font-size: 14px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        #saveBtn, #viewBtn, #backchBtn {
-            background-color: #9364ff;
-            color: white;
-        }
-
-        #saveBtn:disabled, #viewBtn:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-
-        .content {
-            flex-grow: 1;
-            padding: 5px;
-        }
-        
-        h1 {
-            margin-bottom: 10px;
-            color: white;
-            text-shadow: 2px 4px 4px rgb(46 91 173 / 0.6);
-        }
-
-        .form-container {
-            width: 1200px;
-            background: white;
-            padding: 20px;
-            height:100%;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-container label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            text-shadow: 2px 8px 8px rgb(0, 0, 0, 0.1);
-            display: block;
-        }
-
-        .form-container input, .form-container textarea {
-            width: 97%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-        }
-
-        .form-container button {
-            padding: 10px 20px;
-            background-color: #9364ff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        .form-container button:hover {
-            background-color: #8052eb;
-        }
-
-        #sqlQuery {
-            height: 120px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: fixed;
-            display: none; /* Initially hide the entire table, including header */
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-            vertical-align: top;
-            word-break: break-word;
-            height: 50px; /* Fixed row height */
-        }
-
-        th {
-            background-color: #8052eb;
-            color: white;
-            text-align: center;
-        }
-
-        #savecontent, #viewcontent, #backchcontent{
-            width:100%;
-        }
-        .savecontent, .viewcontent, .backchcontent{
-            display: none;
-        }
-
-        .active {
-            display: block;
-        }
-
-        #tasknm, #datanm, #uplnm, #datenm {
-            width: 100px;
-        }
-
-        /* Loader Styles */
-        #loader {
-            width: 100%;
-            text-align: center;
-            margin-top: 20px;
-            display: block;
-        }
-
-        .loader-bar {
-            width: 80%;
-            height: 10px;
-            background-color: #ddd;
-            margin: 10px auto;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .loader-progress {
-            width: 0%;
-            height: 100%;
-            background-color: #8052eb;
-            border-radius: 5px;
-            transition: width 0.3s;
-        }
-		
-		/* View Container Styles */
-        #viewContainer {
-            display: flex;
-			width: 97%;
-            flex-direction: row;
             gap: 15px;
-            margin-bottom: 20px;
-			justify-content: center; /* Vertically centers the content */
-            align-items: center;
         }
 
-        #viewContainer label {
-            padding: 10px;
-			 width:100px;
-            font-weight: bold;
-			color: white;
-            text-shadow: 2px 4px 4px rgb(46 91 173 / 0.6);
-        }
-
-        #viewContainer input {
-            width: 90%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-        
-        }
-
-        #viewContainer button {
-           padding: 10px 10px;
-		   width:200px;
-            background-color: #9364ff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        }
-		.backchcontent .card {
-			width: 1200px;
-			margin: 5% auto; /* Center with 5% margin from top and bottom */
-			padding: 20px;
-			border-radius: 10px;
-			background: white;
-			box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-			position: relative;
-		}
-
-		/* Style the headers in the card */
-		.backchcontent .card h1 {
-			margin-top: 0;
-			font-family: 'Arial', sans-serif; /* Change this to your preferred font */
-			font-size: 24px;
-			color: #333;
-			text-align: center;
-		}
-
-		/* Style for the form elements */
-		.backchcontent form {
-			margin: 0;
-			padding: 0;
-		}
-
-		/* Style for form labels and inputs */
-		.backchcontent label {
-			display: block;
+        label {
+            font-weight: 500;
+            color: #ffffff;
+            display: block;
 			margin: 10px 0 5px;
 			font-family: 'Arial', sans-serif;
 			font-size: 16px;
-			color: #555;
-		}
+        }
 
-		/* Common style for text inputs and select dropdown */
-		.backchcontent input[type="text"], select {
-			width: calc(100% - 0px); /* Full width minus padding and border */
+        /* Input & Select Fields */
+        select, input[type="text"] {
+            padding: 12px;
+            width: calc(100% - 20px); /* Full width minus padding and border */
 			padding: 10px;
-			border: 1px solid #ccc;
-			border-radius: 5px;
-			font-size: 16px;
-			margin-bottom: 15px;
-			box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+            margin-bottom: 15px;
+
+        }
+
+        select:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #bb86fc;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        select {
+            width: calc(100% - 0px);
+
+        }
+
+        input{
+            width: calc(100% - 20px);
+
+        }
+        /* Buttons */
+        button {
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            background: linear-gradient(135deg, #bb86fc, #7564ff);
+            color: #ffffff;
+            transition: all 0.3s ease;  
+            margin-top: 15px;      
+            margin-bottom: 15px;    
+        }
+
+
+
+        button:hover {
+            background: linear-gradient(135deg, #a370f0, #5a4bda);
+            transform: scale(1.05);
+        }
+
+        button:active {
+            background: linear-gradient(135deg, #8e5be0, #4a3dbf);
+            transform: scale(0.98);
+        }
+
+        /* Query Output */
+        #queryOutput {
+            background: rgba(44, 44, 44, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #queryText {
+            background: rgba(30, 30, 30, 0.9);
+            padding: 12px;
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* Button Container */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        #autocopelabel {
+            color: greenyellow;
+            margin: 10px 0 5px;
+			font-family: 'Arial', sans-serif;
+			font-size: 11px;
+			
+        }
+
+        option {
+			background: #2A2A2A; /* Dark background */
+			color: #E0E0E0; /* White text */
+			padding: 12px;
 		}
 
-		/* Dropdown-specific styling */
-		.backchcontent select {
-			background-color: #fff; /* White background for dropdown */
-			cursor: pointer; /* Pointer cursor for dropdown */
-		}
 
-		/* Style dropdown options */
-		.backchcontent select option {
-			padding: 10px; /* Add padding to dropdown options */
-		}
 
-		/* Dropdown hover style */
-		.backchcontent select:hover {
-			border-color: #7564ff; /* Color on hover */
-			background-color: #f0f8ff; /* Light background on hover */
-		}
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
 
-		/* Style for buttons */
-		.backchcontent button {
-			padding: 10px 15px;
-			border: none;
-			border-radius: 5px;
-			background-color: #7564ff; /* Light purple color */
-			color: white;
-			font-size: 16px;
-			cursor: pointer;
-			transition: background-color 0.3s ease;
-		}
+            .card {
+                padding: 18px;
+            }
 
-		.backchcontent button:hover {
-			background-color: #5a43d4; /* Slightly darker purple for hover effect */
-		}
+            select, input[type="text"], button {
+                font-size: 14px;
+            }
+        }
 
-		/* Style for generated SQL query card */
-		.backchcontent #queryOutput {
-			padding: 15px;
-			border-radius: 10px;
-			background: #f9f9f9;
-			border: 1px solid #ddd;
-		}
-
-		/* Style the SQL query text */
-		.backchcontent #queryText {
-			white-space: pre-wrap; /* Preserve whitespace and formatting */
-			font-family: monospace;
-			color: #333;
-		}		
     </style>
 </head>
 <body>
-    <div id="buttonContainer">
-        <button id="saveBtn" onclick="showSaveContent()">Save Query</button>
-        <button id="viewBtn" onclick="showViewContent()">View Queries</button>
-		<button id="backchBtn" onclick="showBackchContent()">Backend Changes</button>
-    </div>
-
     <div class="content">
-            <div id="savecontent" class="savecontent active">
-                <h1>Save SQL Query</h1>
-                <div class="form-container">
-                    <form id="queryForm">
-                        <label for="taskName">Task Name</label>
-                        <input type="text" id="taskName" placeholder="Task Name" required>
-                        <label for="dbName">Database Name</label>
-                        <input type="text" id="dbName" placeholder="Database Name" required>
-                        <label for="sqlQuery">SQL Query</label>
-                        <textarea id="sqlQuery" placeholder="Enter your SQL Query here..." required></textarea>
-                        <div class="checkbox-container">
-                            <label for="uploaded">Uploaded?</label>
-                            <input type="checkbox" id="uploaded">
-                        </div>
-                        <button type="button" onclick="saveQuery()">Save Query</button>
-                    </form>
+        <div id="backchcontent" class="backchcontent active">
+            <h1>BACKEND CHANGE QUERY GENERATED</h1>
+            <div class="card">
+                <div >
+                    <button type="button" id="mainformbtn" onclick="gobackbt()">GO Back</button>
                 </div>
-            </div>
+                <form id="mainForm" action="#" method="post">
+                    <label for="options">Choose an option:</label>
+                    <select id="options" name="options" onchange="handleFormDisplay()">
+                        <option value="none">Please select</option>
+                        <option value="cancel_stock_transfer">Cancel Production and Stock transfer Query</option>
+                        <option value="tallysync">Tallysync Query</option>
+                        <option value="authorization_query">Authorize/Unauthorize Query</option>
+                    </select>
 
-            <div id="viewcontent" class="viewcontent active">
-                <h1>Saved SQL Queries</h1>
-                <div id="viewContainer">
-                    <label for="taskFilter">Filter Task</label>
-                    <input type="text" id="taskFilter" placeholder="Enter task name to filter">
-                    <button type="button" onclick="filterTasks()">Filter</button>
-                </div>
-                
-                <div class="form-container">
-                    <div id="loader">
-                        <div class="loader-bar">
-                            <div class="loader-progress" id="loaderProgress"></div>
-                        </div>
-                        <p>Loading queries...</p>
+                </form>
+    
+                <form id="cancelForm" action="#" method="post" style="display: none;">
+                    <h1>Cancel Production and Stock Transfer</h1>
+                    <label for="transactionType">Transaction Type:</label>
+                    <select id="transactionType" name="transactionType">
+                        <option value="production">Production</option>
+                        <option value="stock">Stock</option>
+                    </select>
+    
+                    <label for="transactionNo">Transaction No:</label>
+                    <input type="text" id="transactionNo" name="transactionNo" required>
+    
+                    <label for="transactionDate">Transaction Date:</label>
+                    <input type="text" id="transactionDate" name="transactionDate" required>
+    
+                    <button type="button" id="generateCancelQueryButton" onclick="cancelquery()">Generate Query</button>
+                </form>
+    
+                <form id="tallysyncForm" action="#" method="post" style="display: none;">
+                    <h1>Tallysync</h1>
+                    <div class="button-container">
+                        <button type="button" id="singleTransactionButton" onclick="singleTransaction()">Single Transaction</button>
+                        <button type="button" id="multipleTransactionButton" onclick="multipleTransaction()">Multiple Transactions</button>
                     </div>
-                    <table id="queryTable">
-                        <thead>
-                            <tr>
-                                <th id="tasknm">Task Name</th>
-                                <th id="datanm">Database Name</th>
-                                <th id="sqlhm">SQL Query</th>
-                                <th id="uplnm">Uploaded</th>
-                                <th id="datenm">Date</th>
-                            </tr>
-                        </thead>
-                        <tbody id="queryTableBody">
-                        </tbody>
-                    </table>
+    
+                    <div id="singleTransactionForm" style="display: none;">
+                        <label for="tableName">Table Name:</label>
+                        <select id="tableName" name="tableName">
+                            <option value="sale_salesinvoice">Sales Invoice</option>
+                            <option value="pur_purchaseinvoice">Purchase Invoice</option>
+                            <option value="pur_purchaseorder">Purchase Order</option>
+                            <option value="sale_salesorder">Sales Order</option>
+                        </select>
+    
+                        <label for="transactionNoTally">Transaction No:</label>
+                        <input type="text" id="transactionNoTally" name="transactionNoTally" required>
+    
+                        <label for="transactionDateTally">Transaction Date:</label>
+                        <input type="text" id="transactionDateTally" name="transactionDateTally" required>
+    
+                        <button type="button" id="generateTallyQueryButton" onclick="singletallyquery()">Generate Query</button>
+                    </div>
+    
+                    <div id="multipleTransactionForm" style="display: none;">
+                        <label for="tableNameMultiple">Table Name:</label>
+                        <select id="tableNameMultiple" name="tableNameMultiple">
+                            <option value="sale_salesinvoice">Sales Invoice</option>
+                            <option value="pur_purchaseinvoice">Purchase Invoice</option>
+                            <option value="pur_purchaseorder">Purchase Order</option>
+                            <option value="sale_salesorder">Sales Order</option>
+                        </select>
+    
+                        <label for="transactionNos">Transaction Nos (comma-separated):</label>
+                        <input type="text" id="transactionNos" name="transactionNos" required>
+    
+                        <button type="button" id="generateMultipleTallyQueryButton" onclick="multipletallyquery()">Generate Query</button>
+                    </div>
+                </form>
+    
+                <form id="authorizationQueryForm" action="#" method="post" style="display: none;">
+                    <h1>Authorization Query</h1>
+                    <label for="authQueryTable">Table Name:</label>
+                    <select id="authQueryTable" name="authQueryTable">
+                        <option value="sale_salesinvoice">Sales Invoice</option>
+                        <option value="pur_purchaseinvoice">Purchase Invoice</option>
+                        <option value="pur_purchaseorder">Purchase Order</option>
+                        <option value="sale_salesorder">Sales Order</option>
+                        <option value="pur_inwardchallan">Inward Challan</option>
+                        <option value="sale_deliverynote">Delivery Note</option>
+                        <option value="pur_gateentry">Gate Entry</option>
+                    </select>
+    
+                    <label for="authQueryNo">Transaction No:</label>
+                    <input type="text" id="authQueryNo" name="authQueryNo" required>
+    
+                    <label for="authQueryDate">Transaction Date:</label>
+                    <input type="text" id="authQueryDate" name="authQueryDate" required>
+    
+                    <button type="button" id="generateAuthQueryButton" onclick="authQuery()">Generate Query</button>
+                </form>
+    
+                <div id="queryOutput" style="display: none; margin-top: 20px;">
+                    <h1>Generated SQL Query</h1>
+                    <pre id="queryText"></pre>
                 </div>
+                <label style="display: none;" id="autocopelabel">auto-copied to your clipboard✅</label>
             </div>
-		
-		
-            <div  id="backchcontent" class="backchcontent active">
-                <h1>BACKEND CHANGE QUERY GENERATED</h1>
-                    <div class="card">
-                        <button type="button" id="mainformbtn" onclick="gobackbt()">GO Back</button>
-                            <form id="mainForm" action="#" method="post">
-                                <label for="options">Choose an option:</label>
-                                <select id="options" name="options" onchange="handleFormDisplay()">
-                                    <option value="none">Please select</option>
-                                    <option value="cancel_stock_transfer">Cancel Production and Stock transfer Query</option>
-                                    <option value="tallysync">Tallysync Query</option>
-                                    <option value="authorization_query">Authorize/Unauthorize Query</option>
-                                </select>
-                                <button type="submit">Submit</button>
-                            </form>
-
-                                <form id="cancelForm" action="#" method="post" style="display: none;">
-                                    <h1>Cancel Production and Stock Transfer</h1>
-                                    <label for="transactionType">Transaction Type:</label>
-                                    <select id="transactionType" name="transactionType">
-                                        <option value="production">Production</option>
-                                        <option value="stock">Stock</option>
-                                    </select>
-
-                                    <label for="transactionNo">Transaction No:</label>
-                                    <input type="text" id="transactionNo" name="transactionNo" required>
-
-                                    <label for="transactionDate">Transaction Date:</label>
-                                    <input type="text" id="transactionDate" name="transactionDate" required>
-
-                                    <button type="button" id="generateCancelQueryButton" onclick="cancelquery()">Generate Query</button>
-                                </form>
-
-                                <form id="tallysyncForm" action="#" method="post" style="display: none;">
-                                    <h1>Tallysync</h1>
-                                    <button type="button" id="singleTransactionButton" onclick="singleTransaction()">Single Transaction</button>
-                                    <button type="button" id="multipleTransactionButton" onclick="multipleTransaction()">Multiple Transactions</button>
-                                    
-                                    <div id="singleTransactionForm" style="display: none;">
-                                        <label for="tableName">Table Name:</label>
-                                        <select id="tableName" name="tableName">
-                                            <option value="sale_salesinvoice">Sales Invoice</option>
-                                            <option value="pur_purchaseinvoice">Purchase Invoice</option>
-                                            <option value="pur_purchaseorder">Purchase Order</option>
-                                            <option value="sale_salesorder">Sales Order</option>
-                                        </select>
-
-                                        <label for="transactionNoTally">Transaction No:</label>
-                                        <input type="text" id="transactionNoTally" name="transactionNoTally" required>
-
-                                        <label for="transactionDateTally">Transaction Date:</label>
-                                        <input type="text" id="transactionDateTally" name="transactionDateTally" required>
-
-                                        <button type="button" id="generateTallyQueryButton" onclick="singletallyquery()">Generate Query</button>
-                                    </div>
-
-                                    <div id="multipleTransactionForm" style="display: none;">
-                                        <label for="tableNameMultiple">Table Name:</label>
-                                        <select id="tableNameMultiple" name="tableNameMultiple">
-                                            <option value="sale_salesinvoice">Sales Invoice</option>
-                                            <option value="pur_purchaseinvoice">Purchase Invoice</option>
-                                            <option value="pur_purchaseorder">Purchase Order</option>
-                                            <option value="sale_salesorder">Sales Order</option>
-                                        </select>
-
-                                        <label for="transactionNos">Transaction Nos (comma-separated):</label>
-                                        <input type="text" id="transactionNos" name="transactionNos" required>
-
-                                        <button type="button" id="generateMultipleTallyQueryButton" onclick="multipletallyquery()">Generate Query</button>
-                                        
-                                    </div>
-                                </form>
-
-                                <form id="authorizationQueryForm" action="#" method="post" style="display: none;">
-                                    <h1>Authorization Query</h1>
-                                    <label for="authQueryTable">Table Name:</label>
-                                    <select id="authQueryTable" name="authQueryTable">
-                                        <option value="sale_salesinvoice">Sales Invoice</option>
-                                        <option value="pur_purchaseinvoice">Purchase Invoice</option>
-                                        <option value="pur_purchaseorder">Purchase Order</option>
-                                        <option value="sale_salesorder">Sales Order</option>
-                                        <option value="pur_inwardchallan">Inward Challan</option>
-                                        <option value="sale_deliverynote">Delivery Note</option>
-                                        <option value="pur_gateentry">Gate Entry</option>
-                                    </select>
-
-                                    <label for="authQueryNo">Transaction No:</label>
-                                    <input type="text" id="authQueryNo" name="authQueryNo" required>
-
-                                    <label for="authQueryDate">Transaction Date:</label>
-                                    <input type="text" id="authQueryDate" name="authQueryDate" required>
-
-                                    <button type="button" id="generateAuthQueryButton" onclick="authQuery()">Generate Query</button>
-                                    
-                                </form>
-
-                                <div id="queryOutput"  style="display: none; margin-top: 20px;">
-                                    <h1>Generated SQL Query</h1>
-                                    <pre id="queryText"></pre>
-                                </div>
-            
-            </div>
-		</div>
+        </div>
     </div>
 
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwq_CDxxzVSYo7IbrgvdCacvkwi1VrQa--zHSnjbDHUdIHwJQlvK1owXdSlQj0tdT7N/exec';
-
-		function showSaveContent() {
-			document.getElementById('savecontent').classList.add('active');
-			document.getElementById('viewcontent').classList.remove('active');
-			document.getElementById('backchcontent').classList.remove('active');
-		}
-
-		function showViewContent() {
-			document.getElementById('savecontent').classList.remove('active');
-			document.getElementById('viewcontent').classList.add('active');
-			document.getElementById('backchcontent').classList.remove('active');
-
-			// Show loader before starting fetch
-			document.getElementById('loader').style.display = 'block';
-
-			// Hide table initially
-			document.getElementById('queryTable').style.display = 'none';
-
-			loadQueries();
-		}
-
-		function showBackchContent() {
-			document.getElementById('savecontent').classList.remove('active');
-			document.getElementById('viewcontent').classList.remove('active');
-			document.getElementById('backchcontent').classList.add('active');
-		}
-
-        function saveQuery() {
-            const taskName = document.getElementById('taskName').value;
-            const dbName = document.getElementById('dbName').value;
-            const sqlQuery = document.getElementById('sqlQuery').value;
-            const uploaded = document.getElementById('uploaded').checked ? 'Yes' : 'No';
-
-            if (!taskName) {
-                alert('Task Name is required. Please enter a Task Name.');
-                return;
-            }
-
-            const data = { taskName, dbName, sqlQuery, uploaded };
-
-            fetch(scriptURL, {
-                method: 'POST',
-                body: JSON.stringify(data),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    alert('Query saved successfully!');
-                    document.getElementById('queryForm').reset();
-                })
-                .catch(error => alert('Error saving query: ' + error));
-        }
-
-        function loadQueries() {
-            fetch(scriptURL)
-                .then(response => response.json())
-                .then(data => {
-                    const tableBody = document.getElementById('queryTableBody');
-                    tableBody.innerHTML = '';
-
-                    data.forEach((query, index) => {
-                        const row = `
-                            <tr>
-                                <td>${query.taskName}</td>
-                                <td>${query.dbName}</td>
-                                <td>${query.sqlQuery}</td>
-                                <td>${query.uploaded}</td>
-                                <td>${query.date}</td>
-                            </tr>
-                        `;
-                        tableBody.innerHTML += row;
-                    });
-
-                    document.getElementById('loader').style.display = 'none';
-                    document.getElementById('queryTable').style.display = 'table';  
-                })
-                .catch(error => {
-                    console.error('Error loading queries:', error);
-                    alert('Failed to load queries. Please try again later.');
-                    document.getElementById('loader').style.display = 'none';
-                });
-        }
-
-        function filterTasks() {
-            const filterValue = document.getElementById('taskFilter').value.toLowerCase();
-
-            const rows = document.querySelectorAll('#queryTableBody tr');
-            rows.forEach(row => {
-                const taskName = row.querySelector('td').textContent.toLowerCase();
-                if (taskName.includes(filterValue)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-
+        
         function gobackbt() {
 			var mainForm = document.getElementById('mainForm');
 			var cancelForm = document.getElementById('cancelForm');
@@ -614,6 +353,7 @@
 
 			// Show the generated query
 			queryOutput.style.display = 'block';
+            copyQuery();
         }
 
         function singleTransaction() {
@@ -663,6 +403,7 @@
 			// Show the generated query
 			queryText.textContent = query;
 			queryOutput.style.display = 'block';
+            copyQuery();
         }
 
         function multipletallyquery(){
@@ -693,6 +434,7 @@
 			// Show the generated query
 			queryText.textContent = query;
 			queryOutput.style.display = 'block';
+            copyQuery();
         }
 
         function authQuery(){
@@ -733,6 +475,16 @@
 			// Show the generated query
 			queryText.textContent = query;
 			queryOutput.style.display = 'block';
+            copyQuery();
+        }
+
+        function copyQuery() {
+            const queryText = document.getElementById('queryText').textContent;
+            navigator.clipboard.writeText(queryText).then(() => {
+                document.getElementById('autocopelabel').style.display = 'block';
+            }).catch(err => {
+                console.error("Error copying text: ", err);
+            });
         }
 
         window.onload = showSaveContent;
