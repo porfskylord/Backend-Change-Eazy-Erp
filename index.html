@@ -305,184 +305,170 @@
     </div>
 
     <div class="content">
-        <!-- Save Query Form -->
-        <div id="savecontent" class="savecontent active">
-            <h1>Save SQL Query</h1>
-            <div class="form-container">
-                <form id="queryForm">
-                    <label for="taskName">Task Name</label>
-                    <input type="text" id="taskName" placeholder="Task Name" required>
-                    <label for="dbName">Database Name</label>
-                    <input type="text" id="dbName" placeholder="Database Name" required>
-                    <label for="sqlQuery">SQL Query</label>
-                    <textarea id="sqlQuery" placeholder="Enter your SQL Query here..." required></textarea>
-                    <div class="checkbox-container">
-                        <label for="uploaded">Uploaded?</label>
-                        <input type="checkbox" id="uploaded">
-                    </div>
-                    <button type="button" onclick="saveQuery()">Save Query</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- View Queries Section -->
-        <div id="viewcontent" class="viewcontent active">
-            <h1>Saved SQL Queries</h1>
-			            <!-- View Container for Filter -->
-            <div id="viewContainer">
-                <label for="taskFilter">Filter Task</label>
-                <input type="text" id="taskFilter" placeholder="Enter task name to filter">
-                <button type="button" onclick="filterTasks()">Filter</button>
-            </div>
-			
-            <div class="form-container">
-                <!-- Loader -->
-                <div id="loader">
-                    <div class="loader-bar">
-                        <div class="loader-progress" id="loaderProgress"></div>
-                    </div>
-                    <p>Loading queries...</p>
+            <div id="savecontent" class="savecontent active">
+                <h1>Save SQL Query</h1>
+                <div class="form-container">
+                    <form id="queryForm">
+                        <label for="taskName">Task Name</label>
+                        <input type="text" id="taskName" placeholder="Task Name" required>
+                        <label for="dbName">Database Name</label>
+                        <input type="text" id="dbName" placeholder="Database Name" required>
+                        <label for="sqlQuery">SQL Query</label>
+                        <textarea id="sqlQuery" placeholder="Enter your SQL Query here..." required></textarea>
+                        <div class="checkbox-container">
+                            <label for="uploaded">Uploaded?</label>
+                            <input type="checkbox" id="uploaded">
+                        </div>
+                        <button type="button" onclick="saveQuery()">Save Query</button>
+                    </form>
                 </div>
-                <!-- Table (Initially hidden) -->
-                <table id="queryTable">
-                    <thead>
-                        <tr>
-                            <th id="tasknm">Task Name</th>
-                            <th id="datanm">Database Name</th>
-                            <th id="sqlhm">SQL Query</th>
-                            <th id="uplnm">Uploaded</th>
-                            <th id="datenm">Date</th>
-                        </tr>
-                    </thead>
-                    <tbody id="queryTableBody">
-                        <!-- Data will be dynamically inserted here -->
-                    </tbody>
-                </table>
             </div>
-        </div>
+
+            <div id="viewcontent" class="viewcontent active">
+                <h1>Saved SQL Queries</h1>
+                <div id="viewContainer">
+                    <label for="taskFilter">Filter Task</label>
+                    <input type="text" id="taskFilter" placeholder="Enter task name to filter">
+                    <button type="button" onclick="filterTasks()">Filter</button>
+                </div>
+                
+                <div class="form-container">
+                    <div id="loader">
+                        <div class="loader-bar">
+                            <div class="loader-progress" id="loaderProgress"></div>
+                        </div>
+                        <p>Loading queries...</p>
+                    </div>
+                    <table id="queryTable">
+                        <thead>
+                            <tr>
+                                <th id="tasknm">Task Name</th>
+                                <th id="datanm">Database Name</th>
+                                <th id="sqlhm">SQL Query</th>
+                                <th id="uplnm">Uploaded</th>
+                                <th id="datenm">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="queryTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 		
 		
-		<div  id="backchcontent" class="backchcontent active">
-		<h1>BACKEND CHANGE QUERY GENERATED</h1>
-		<div class="card">
-		<button type="button" id="mainformbtn">GO Back</button>
-        <!-- Main form with dropdown to choose an option -->
-        <form id="mainForm" action="#" method="post">
-            <label for="options">Choose an option:</label>
-            <select id="options" name="options">
-                <option value="none">Please select</option>
-                <option value="cancel_stock_transfer">Cancel Production and Stock transfer Query</option>
-                <option value="tallysync">Tallysync Query</option>
-                <option value="authorization_query">Authorize/Unauthorize Query</option>
-            </select>
-            <button type="submit">Submit</button>
-        </form>
+            <div  id="backchcontent" class="backchcontent active">
+                <h1>BACKEND CHANGE QUERY GENERATED</h1>
+                    <div class="card">
+                        <button type="button" id="mainformbtn" onclick="gobackbt()">GO Back</button>
+                            <form id="mainForm" action="#" method="post">
+                                <label for="options">Choose an option:</label>
+                                <select id="options" name="options" onchange="handleFormDisplay()">
+                                    <option value="none">Please select</option>
+                                    <option value="cancel_stock_transfer">Cancel Production and Stock transfer Query</option>
+                                    <option value="tallysync">Tallysync Query</option>
+                                    <option value="authorization_query">Authorize/Unauthorize Query</option>
+                                </select>
+                                <button type="submit">Submit</button>
+                            </form>
 
-        <!-- Form for Cancel Production and Stock Transfer -->
-        <form id="cancelForm" action="#" method="post" style="display: none;">
-            <h1>Cancel Production and Stock Transfer</h1>
-            <label for="transactionType">Transaction Type:</label>
-            <select id="transactionType" name="transactionType">
-                <option value="production">Production</option>
-                <option value="stock">Stock</option>
-            </select>
+                                <form id="cancelForm" action="#" method="post" style="display: none;">
+                                    <h1>Cancel Production and Stock Transfer</h1>
+                                    <label for="transactionType">Transaction Type:</label>
+                                    <select id="transactionType" name="transactionType">
+                                        <option value="production">Production</option>
+                                        <option value="stock">Stock</option>
+                                    </select>
 
-            <label for="transactionNo">Transaction No:</label>
-            <input type="text" id="transactionNo" name="transactionNo" required>
+                                    <label for="transactionNo">Transaction No:</label>
+                                    <input type="text" id="transactionNo" name="transactionNo" required>
 
-            <label for="transactionDate">Transaction Date:</label>
-            <input type="text" id="transactionDate" name="transactionDate" required>
+                                    <label for="transactionDate">Transaction Date:</label>
+                                    <input type="text" id="transactionDate" name="transactionDate" required>
 
-            <button type="button" id="generateCancelQueryButton">Generate Query</button>
-        </form>
+                                    <button type="button" id="generateCancelQueryButton" onclick="cancelquery()">Generate Query</button>
+                                </form>
 
-        <!-- Form for Tallysync with options for Single or Multiple Transactions -->
-        <form id="tallysyncForm" action="#" method="post" style="display: none;">
-            <h1>Tallysync</h1>
-            <button type="button" id="singleTransactionButton">Single Transaction</button>
-            <button type="button" id="multipleTransactionButton">Multiple Transactions</button>
+                                <form id="tallysyncForm" action="#" method="post" style="display: none;">
+                                    <h1>Tallysync</h1>
+                                    <button type="button" id="singleTransactionButton" onclick="singleTransaction()">Single Transaction</button>
+                                    <button type="button" id="multipleTransactionButton" onclick="multipleTransaction()">Multiple Transactions</button>
+                                    
+                                    <div id="singleTransactionForm" style="display: none;">
+                                        <label for="tableName">Table Name:</label>
+                                        <select id="tableName" name="tableName">
+                                            <option value="sale_salesinvoice">Sales Invoice</option>
+                                            <option value="pur_purchaseinvoice">Purchase Invoice</option>
+                                            <option value="pur_purchaseorder">Purchase Order</option>
+                                            <option value="sale_salesorder">Sales Order</option>
+                                        </select>
+
+                                        <label for="transactionNoTally">Transaction No:</label>
+                                        <input type="text" id="transactionNoTally" name="transactionNoTally" required>
+
+                                        <label for="transactionDateTally">Transaction Date:</label>
+                                        <input type="text" id="transactionDateTally" name="transactionDateTally" required>
+
+                                        <button type="button" id="generateTallyQueryButton" onclick="singletallyquery()">Generate Query</button>
+                                    </div>
+
+                                    <div id="multipleTransactionForm" style="display: none;">
+                                        <label for="tableNameMultiple">Table Name:</label>
+                                        <select id="tableNameMultiple" name="tableNameMultiple">
+                                            <option value="sale_salesinvoice">Sales Invoice</option>
+                                            <option value="pur_purchaseinvoice">Purchase Invoice</option>
+                                            <option value="pur_purchaseorder">Purchase Order</option>
+                                            <option value="sale_salesorder">Sales Order</option>
+                                        </select>
+
+                                        <label for="transactionNos">Transaction Nos (comma-separated):</label>
+                                        <input type="text" id="transactionNos" name="transactionNos" required>
+
+                                        <button type="button" id="generateMultipleTallyQueryButton" onclick="multipletallyquery()">Generate Query</button>
+                                        
+                                    </div>
+                                </form>
+
+                                <form id="authorizationQueryForm" action="#" method="post" style="display: none;">
+                                    <h1>Authorization Query</h1>
+                                    <label for="authQueryTable">Table Name:</label>
+                                    <select id="authQueryTable" name="authQueryTable">
+                                        <option value="sale_salesinvoice">Sales Invoice</option>
+                                        <option value="pur_purchaseinvoice">Purchase Invoice</option>
+                                        <option value="pur_purchaseorder">Purchase Order</option>
+                                        <option value="sale_salesorder">Sales Order</option>
+                                        <option value="pur_inwardchallan">Inward Challan</option>
+                                        <option value="sale_deliverynote">Delivery Note</option>
+                                        <option value="pur_gateentry">Gate Entry</option>
+                                    </select>
+
+                                    <label for="authQueryNo">Transaction No:</label>
+                                    <input type="text" id="authQueryNo" name="authQueryNo" required>
+
+                                    <label for="authQueryDate">Transaction Date:</label>
+                                    <input type="text" id="authQueryDate" name="authQueryDate" required>
+
+                                    <button type="button" id="generateAuthQueryButton" onclick="authQuery()">Generate Query</button>
+                                    
+                                </form>
+
+                                <div id="queryOutput"  style="display: none; margin-top: 20px;">
+                                    <h1>Generated SQL Query</h1>
+                                    <pre id="queryText"></pre>
+                                </div>
             
-            <!-- Single Transaction Form -->
-            <div id="singleTransactionForm" style="display: none;">
-                <label for="tableName">Table Name:</label>
-                <select id="tableName" name="tableName">
-                    <option value="sale_salesinvoice">Sales Invoice</option>
-                    <option value="pur_purchaseinvoice">Purchase Invoice</option>
-                    <option value="pur_purchaseorder">Purchase Order</option>
-                    <option value="sale_salesorder">Sales Order</option>
-                </select>
-
-                <label for="transactionNoTally">Transaction No:</label>
-                <input type="text" id="transactionNoTally" name="transactionNoTally" required>
-
-                <label for="transactionDateTally">Transaction Date:</label>
-                <input type="text" id="transactionDateTally" name="transactionDateTally" required>
-
-                <button type="button" id="generateTallyQueryButton">Generate Query</button>
             </div>
-
-            <!-- Multiple Transactions Form -->
-            <div id="multipleTransactionForm" style="display: none;">
-                <label for="tableNameMultiple">Table Name:</label>
-                <select id="tableNameMultiple" name="tableNameMultiple">
-                    <option value="sale_salesinvoice">Sales Invoice</option>
-                    <option value="pur_purchaseinvoice">Purchase Invoice</option>
-                    <option value="pur_purchaseorder">Purchase Order</option>
-                    <option value="sale_salesorder">Sales Order</option>
-                </select>
-
-                <label for="transactionNos">Transaction Nos (comma-separated):</label>
-                <input type="text" id="transactionNos" name="transactionNos" required>
-
-                <button type="button" id="generateMultipleTallyQueryButton">Generate Query</button>
-				
-            </div>
-        </form>
-
-        <!-- Form for Authorization Query -->
-        <form id="authorizationQueryForm" action="#" method="post" style="display: none;">
-            <h1>Authorization Query</h1>
-            <label for="authQueryTable">Table Name:</label>
-            <select id="authQueryTable" name="authQueryTable">
-                <option value="sale_salesinvoice">Sales Invoice</option>
-                <option value="pur_purchaseinvoice">Purchase Invoice</option>
-                <option value="pur_purchaseorder">Purchase Order</option>
-                <option value="sale_salesorder">Sales Order</option>
-                <option value="pur_inwardchallan">Inward Challan</option>
-                <option value="sale_deliverynote">Delivery Note</option>
-            </select>
-
-            <label for="authQueryNo">Transaction No:</label>
-            <input type="text" id="authQueryNo" name="authQueryNo" required>
-
-            <label for="authQueryDate">Transaction Date:</label>
-            <input type="text" id="authQueryDate" name="authQueryDate" required>
-
-            <button type="button" id="generateAuthQueryButton">Generate Query</button>
-			
-        </form>
-
-        <!-- Section to display generated SQL query -->
-        <div id="queryOutput"  style="display: none; margin-top: 20px;">
-            <h1>Generated SQL Query</h1>
-            <pre id="queryText"></pre>
-        </div>
-        
-		</div>
 		</div>
     </div>
 
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwq_CDxxzVSYo7IbrgvdCacvkwi1VrQa--zHSnjbDHUdIHwJQlvK1owXdSlQj0tdT7N/exec';
 
-	// Function to show the Save Query content
 		function showSaveContent() {
 			document.getElementById('savecontent').classList.add('active');
 			document.getElementById('viewcontent').classList.remove('active');
 			document.getElementById('backchcontent').classList.remove('active');
 		}
 
-		// Function to show the View Queries content
 		function showViewContent() {
 			document.getElementById('savecontent').classList.remove('active');
 			document.getElementById('viewcontent').classList.add('active');
@@ -497,15 +483,11 @@
 			loadQueries();
 		}
 
-		// Function to show the Backend Changes content
 		function showBackchContent() {
 			document.getElementById('savecontent').classList.remove('active');
 			document.getElementById('viewcontent').classList.remove('active');
 			document.getElementById('backchcontent').classList.add('active');
 		}
-
-		// Update the button functionality for the Backch button
-		document.getElementById('backchBtn').addEventListener('click', showBackchContent);
 
         function saveQuery() {
             const taskName = document.getElementById('taskName').value;
@@ -552,9 +534,8 @@
                         tableBody.innerHTML += row;
                     });
 
-                    // Hide loader and display table
                     document.getElementById('loader').style.display = 'none';
-                    document.getElementById('queryTable').style.display = 'table';  // Now show the table after data is loaded
+                    document.getElementById('queryTable').style.display = 'table';  
                 })
                 .catch(error => {
                     console.error('Error loading queries:', error);
@@ -562,6 +543,7 @@
                     document.getElementById('loader').style.display = 'none';
                 });
         }
+
         function filterTasks() {
             const filterValue = document.getElementById('taskFilter').value.toLowerCase();
 
@@ -575,57 +557,49 @@
                 }
             });
         }
-		document.getElementById('mainformbtn').addEventListener('click', function() {
+
+        function gobackbt() {
 			var mainForm = document.getElementById('mainForm');
 			var cancelForm = document.getElementById('cancelForm');
 			var tallysyncForm = document.getElementById('tallysyncForm');
 			var authorizationQueryForm = document.getElementById('authorizationQueryForm');
-			
-			mainForm.style.display = 'block';
+            var queryOutput = document.getElementById('queryOutput');
+			var queryText = document.getElementById('queryText');
+            var optionval = document.getElementById('options');
+            mainForm.style.display = 'block';
 			cancelForm.style.display = 'none';
 			tallysyncForm.style.display = 'none';
 			authorizationQueryForm.style.display = 'none';
-			document.getElementById('options').value = 'none';
-			var queryOutput = document.getElementById('queryOutput');
-			var queryText = document.getElementById('queryText');
-			queryText.textContent = '';
-			queryOutput.style.display = 'block';
-			
-		});
-		// Event listener for dropdown selection
-		document.getElementById('options').addEventListener('change', function() {
-			var mainForm = document.getElementById('mainForm');
-			var cancelForm = document.getElementById('cancelForm');
-			var tallysyncForm = document.getElementById('tallysyncForm');
-			var authorizationQueryForm = document.getElementById('authorizationQueryForm');
+            optionval.value = 'none';
+            queryText.textContent = "";
+			queryOutput.style.display = 'none';
+            document.getElementById('transactionNo').value = "";
+            document.getElementById('transactionDate').value = "";
+            document.getElementById('transactionNoTally').value = "";
+            document.getElementById('transactionDateTally').value = "";
+            document.getElementById('transactionNos').value = "";
+            document.getElementById('authQueryNo').value = "";
+            document.getElementById('authQueryDate').value = "";
 
-			// Show or hide forms based on selected option
-			if (this.value === 'cancel_stock_transfer') {
-				mainForm.style.display = 'none';
-				tallysyncForm.style.display = 'none';
-				authorizationQueryForm.style.display = 'none';
-				cancelForm.style.display = 'block';
-			} else if (this.value === 'tallysync') {
-				mainForm.style.display = 'none';
-				cancelForm.style.display = 'none';
-				authorizationQueryForm.style.display = 'none';
-				tallysyncForm.style.display = 'block';
-			} else if (this.value === 'authorization_query') {
-				mainForm.style.display = 'none';
-				cancelForm.style.display = 'none';
-				tallysyncForm.style.display = 'none';
-				authorizationQueryForm.style.display = 'block';
-			} else {
-				mainForm.style.display = 'block';
-				cancelForm.style.display = 'none';
-				tallysyncForm.style.display = 'none';
-				authorizationQueryForm.style.display = 'none';
-			}
-		});
 
-		// Event listener for generating SQL query for Cancel Production and Stock Transfer
-		document.getElementById('generateCancelQueryButton').addEventListener('click', function() {
-			var transactionType = document.getElementById('transactionType').value;
+        }
+
+        function handleFormDisplay() {
+            var options = document.getElementById('options');
+            var mainForm = document.getElementById('mainForm');
+            var cancelForm = document.getElementById('cancelForm');
+            var tallysyncForm = document.getElementById('tallysyncForm');
+            var authorizationQueryForm = document.getElementById('authorizationQueryForm');
+
+            // Show or hide forms based on selected option
+            mainForm.style.display = 'none'
+            cancelForm.style.display = (options.value === 'cancel_stock_transfer') ? 'block' : 'none';
+            tallysyncForm.style.display = (options.value === 'tallysync') ? 'block' : 'none';
+            authorizationQueryForm.style.display = (options.value === 'authorization_query') ? 'block' : 'none';
+        }
+        
+        function cancelquery() {
+            var transactionType = document.getElementById('transactionType').value;
 			var transactionNo = document.getElementById('transactionNo').value;
 			var transactionDate = document.getElementById('transactionDate').value;
 			var queryOutput = document.getElementById('queryOutput');
@@ -640,23 +614,28 @@
 
 			// Show the generated query
 			queryOutput.style.display = 'block';
-		});
+        }
 
-		// Event listener for Single Transaction button in Tallysync
-		document.getElementById('singleTransactionButton').addEventListener('click', function() {
-			document.getElementById('singleTransactionForm').style.display = 'block';
+        function singleTransaction() {
+            document.getElementById('singleTransactionForm').style.display = 'block';
 			document.getElementById('multipleTransactionForm').style.display = 'none';
-		});
+            document.getElementById('queryText').textContent = "";
+            document.getElementById('queryOutput').style.display = 'none';
+            document.getElementById('transactionNos').value = "";
+        }
 
-		// Event listener for Multiple Transactions button in Tallysync
-		document.getElementById('multipleTransactionButton').addEventListener('click', function() {
+        function multipleTransaction() {
+    
+            document.getElementById('singleTransactionForm').style.display = 'none';
 			document.getElementById('multipleTransactionForm').style.display = 'block';
-			document.getElementById('singleTransactionForm').style.display = 'none';
-		});
+            document.getElementById('queryText').textContent = "";
+            document.getElementById('queryOutput').style.display = 'none';
+            document.getElementById('transactionNoTally').value = "";
+            document.getElementById('transactionDateTally').value = "";
+        }
 
-		// Event listener for generating SQL query for Single Transaction in Tallysync
-		document.getElementById('generateTallyQueryButton').addEventListener('click', function() {
-			var tableName = document.getElementById('tableName').value;
+        function singletallyquery(){
+            var tableName = document.getElementById('tableName').value;
 			var transactionNo = document.getElementById('transactionNoTally').value;
 			var transactionDate = document.getElementById('transactionDateTally').value;
 			var queryOutput = document.getElementById('queryOutput');
@@ -684,11 +663,10 @@
 			// Show the generated query
 			queryText.textContent = query;
 			queryOutput.style.display = 'block';
-		});
+        }
 
-		// Event listener for generating SQL query for Multiple Transactions in Tallysync
-		document.getElementById('generateMultipleTallyQueryButton').addEventListener('click', function() {
-			var tableName = document.getElementById('tableNameMultiple').value;
+        function multipletallyquery(){
+            var tableName = document.getElementById('tableNameMultiple').value;
 			var transactionNos = document.getElementById('transactionNos').value.split(',');
 			var queryOutput = document.getElementById('queryOutput');
 			var queryText = document.getElementById('queryText');
@@ -715,11 +693,10 @@
 			// Show the generated query
 			queryText.textContent = query;
 			queryOutput.style.display = 'block';
-		});
+        }
 
-		// Event listener for generating SQL query for Authorization Query
-		document.getElementById('generateAuthQueryButton').addEventListener('click', function() {
-			var tableName = document.getElementById('authQueryTable').value;
+        function authQuery(){
+            var tableName = document.getElementById('authQueryTable').value;
 			var transactionNo = document.getElementById('authQueryNo').value;
 			var transactionDate = document.getElementById('authQueryDate').value;
 			var queryOutput = document.getElementById('queryOutput');
@@ -748,12 +725,16 @@
 				case 'sale_deliverynote':
 					query = `UPDATE sale_deliverynote SET authorizedby=NULL, isauthorized=FALSE, editlog=COALESCE(editlog,'') ||'unauthorized : Approved on ${currentDateTime}' WHERE deliverynoteid = (SELECT deliverynoteid FROM sale_deliverynote WHERE deliverynoteno ='${transactionNo}' AND CAST(deliverynotedate as DATE) = '${transactionDate}');`;
 					break;
+                case 'pur_gateentry':
+					query = `UPDATE pur_gateentry SET authorizedby=NULL, isauthorized=FALSE, editlog=COALESCE(editlog,'') ||'unauthorized : Approved on ${currentDateTime}' WHERE gateentryid = (SELECT gateentryid FROM pur_gateentry WHERE entryno ='${transactionNo}' AND CAST(entrydate as DATE) = '${transactionDate}');`;
+					break;
 			}
 
 			// Show the generated query
 			queryText.textContent = query;
 			queryOutput.style.display = 'block';
-		});
+        }
+
         window.onload = showSaveContent;
     </script>
 </body>
