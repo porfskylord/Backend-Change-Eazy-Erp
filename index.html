@@ -586,7 +586,10 @@
 			tallysyncForm.style.display = 'none';
 			authorizationQueryForm.style.display = 'none';
 			document.getElementById('options').value = 'none';
-			document.getElementById('queryText').value = 'none';
+			var queryOutput = document.getElementById('queryOutput');
+			var queryText = document.getElementById('queryText');
+			queryText.textContent = '';
+			queryOutput.style.display = 'block';
 			
 		});
 		// Event listener for dropdown selection
