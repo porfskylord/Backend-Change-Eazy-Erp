@@ -5,9 +5,7 @@ A specialized tool designed for **Eazy ERP Technology Pvt Ltd** to generate and 
 ## 🌟 Live Demo  
 🔗 [Backend Change Query Generator](https://porfskylord.github.io/Backend-Change-Eazy-Erp/)  
 
-## 🚀 Features  
-- **Generate SQL Queries** for various backend modifications.  
-- **Save Temporary Queries** for later use.  
+## 🚀 Features 
 - **Supports Multiple Operations**:
   - Production Cancellation  
   - Transaction Authorization  
